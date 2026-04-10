@@ -191,5 +191,9 @@ def gogs_merge_pull_request(
         return _handle(resp)
 
 
-if __name__ == "__main__":
+def main():
     mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    main()

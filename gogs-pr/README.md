@@ -23,22 +23,45 @@ Gogs Pull Request 管理 MCP 插件，让 Claude 直接通过 Gogs API 操作 PR
 
 ## 安装
 
-### 1. 安装依赖
+### 方式一：通过 GitHub 直接安装（推荐）
 
-```bash
-pip install -r requirements.txt
+无需 clone 仓库，在 `~/.claude/settings.json` 中添加：
+
+```json
+{
+  "mcpServers": {
+    "gogs-pr": {
+      "command": "uvx",
+      "args": [
+        "--from", "git+https://github.com/liuende501/claude-plugins#subdirectory=gogs-pr",
+        "gogs-pr"
+      ],
+      "env": {
+        "GOGS_URL": "http://your-gogs-host:3000",
+        "GOGS_TOKEN": "your_token_here"
+      }
+    }
+  }
+}
 ```
 
-### 2. 配置 Claude Code
+> 首次运行时 `uvx` 会自动拉取并安装依赖，无需手动操作。
 
-在 `~/.claude/claude_desktop_config.json`（或 `.claude/settings.json`）中添加：
+### 方式二：本地安装
+
+```bash
+git clone https://github.com/liuende501/claude-plugins.git
+pip install -r claude-plugins/gogs-pr/requirements.txt
+```
+
+在 `~/.claude/settings.json` 中添加：
 
 ```json
 {
   "mcpServers": {
     "gogs-pr": {
       "command": "python",
-      "args": ["/path/to/gogs-pr/server.py"],
+      "args": ["/path/to/claude-plugins/gogs-pr/server.py"],
       "env": {
         "GOGS_URL": "http://your-gogs-host:3000",
         "GOGS_TOKEN": "your_token_here"
