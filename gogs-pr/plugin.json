@@ -1,0 +1,39 @@
+{
+  "name": "gogs-pr",
+  "version": "1.0.0",
+  "description": "Gogs Pull Request 管理工具，提供创建、查看、编辑、合并、列出 PR 等操作",
+  "author": "liuende",
+  "type": "mcp-server",
+  "runtime": "python",
+  "entry": "server.py",
+  "env": {
+    "GOGS_URL": {
+      "description": "Gogs 实例地址",
+      "default": "http://127.0.0.1:3001",
+      "required": false
+    },
+    "GOGS_TOKEN": {
+      "description": "Gogs API Token（在 Gogs 用户设置 → 应用 → 生成令牌）",
+      "required": true
+    }
+  },
+  "tools": [
+    "gogs_list_pull_requests",
+    "gogs_get_pull_request",
+    "gogs_create_pull_request",
+    "gogs_edit_pull_request",
+    "gogs_merge_pull_request"
+  ],
+  "claude_config": {
+    "mcpServers": {
+      "gogs-pr": {
+        "command": "python",
+        "args": ["server.py"],
+        "env": {
+          "GOGS_URL": "${GOGS_URL}",
+          "GOGS_TOKEN": "${GOGS_TOKEN}"
+        }
+      }
+    }
+  }
+}
