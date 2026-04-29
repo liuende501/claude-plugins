@@ -1,7 +1,7 @@
 {
   "name": "gogs-pr",
   "version": "1.0.0",
-  "description": "Gogs Pull Request 管理工具，提供创建、查看、编辑、合并、列出 PR 等操作",
+  "description": "Gogs Pull Request 管理工具，提供创建、查看、编辑、合并、列出、评论 PR 等操作",
   "author": "liuende",
   "type": "mcp-server",
   "runtime": "python",
@@ -22,7 +22,8 @@
     "gogs_get_pull_request",
     "gogs_create_pull_request",
     "gogs_edit_pull_request",
-    "gogs_merge_pull_request"
+    "gogs_merge_pull_request",
+    "gogs_create_pull_request_comment"
   ],
   "claude_config": {
     "mcpServers": {

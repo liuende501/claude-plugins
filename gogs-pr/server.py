@@ -1,6 +1,6 @@
 """
 Gogs Pull Request MCP Server
-提供 5 个工具供 Claude 直接调用 Gogs PR API
+提供 6 个工具供 Claude 直接调用 Gogs PR API
 """
 
 import os
@@ -14,7 +14,7 @@ mcp = FastMCP(
     name="gogs-pr",
     instructions=(
         "Gogs Pull Request 管理工具。"
-        "当用户提到创建/查看/编辑/合并/列出 PR 或 Pull Request 时，使用这些工具。"
+        "当用户提到创建/查看/编辑/合并/列出/评论 PR 或 Pull Request 时，使用这些工具。"
         f"当前连接的 Gogs 实例：{GOGS_URL}"
     ),
 )
@@ -188,6 +188,32 @@ def gogs_merge_pull_request(
 
     with _client() as c:
         resp = c.post(f"/api/v1/repos/{owner}/{repo}/pulls/{index}/merge", json=payload)
+        return _handle(resp)
+
+
+@mcp.tool(
+    description=(
+        "对 Pull Request 发表评论，可同时变更 PR 状态。\n"
+        "- owner: 仓库所有者用户名\n"
+        "- repo: 仓库名称\n"
+        "- index: PR 序号\n"
+        "- body: 评论内容（必填）\n"
+        "- state: 不传仅评论；closed 评论并关闭；open 评论并重新开启（需写权限）"
+    )
+)
+def gogs_create_pull_request_comment(
+    owner: str,
+    repo: str,
+    index: int,
+    body: str,
+    state: str = "",
+) -> dict:
+    payload: dict = {"body": body}
+    if state:
+        payload["state"] = state
+
+    with _client() as c:
+        resp = c.post(f"/api/v1/repos/{owner}/{repo}/pulls/{index}/comments", json=payload)
         return _handle(resp)
 
 

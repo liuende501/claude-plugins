@@ -51,17 +51,19 @@ Gogs Pull Request 管理 MCP 插件，让 Claude 直接通过 Gogs API 操作 PR
 
 ```bash
 git clone https://github.com/liuende501/claude-plugins.git
-pip install -r claude-plugins/gogs-pr/requirements.txt
 ```
 
-在 `~/.claude/settings.json` 中添加：
+在 `~/.claude/.mcp.json` 中添加：
 
 ```json
 {
   "mcpServers": {
     "gogs-pr": {
-      "command": "python",
-      "args": ["/path/to/claude-plugins/gogs-pr/server.py"],
+      "command": "uv",
+      "args": [
+        "--directory", "/path/to/claude-plugins/gogs-pr",
+        "run", "gogs-pr"
+      ],
       "env": {
         "GOGS_URL": "http://your-gogs-host:3000",
         "GOGS_TOKEN": "your_token_here"
@@ -70,6 +72,8 @@ pip install -r claude-plugins/gogs-pr/requirements.txt
   }
 }
 ```
+
+> `uv run` 会自动创建虚拟环境并安装依赖，无需手动 `pip install`。
 
 ## 使用示例
 
